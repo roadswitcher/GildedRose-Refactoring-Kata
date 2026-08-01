@@ -10,9 +10,15 @@ TEST_CASE("Fix default unit test to verify unit tests/gcovr")
     REQUIRE("Dave's Arbitrary Item" == app.items[0].name);
 }
 
-// Pretty simple, right? Well this is where it gets interesting:
-
 // - Once the sell by date has passed, `Quality` degrades twice as fast
+TEST_CASE("Once the sell by date has passed, Quality degrades twice as fast") {
+  std::vector<Item> items;
+  items.push_back(Item("Foo", 0, 10));
+  GildedRose app(items);
+  app.updateQuality();
+  REQUIRE(8 == app.items[0].quality);
+  REQUIRE(-1 == app.items[0].sellIn);
+}
 // - The `Quality` of an item is never negative
 // - __"Aged Brie"__ actually increases in `Quality` the older it gets
 // - The `Quality` of an item is never more than `50`
