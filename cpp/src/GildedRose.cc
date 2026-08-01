@@ -66,16 +66,16 @@ void updateSellIn(Item& item) {
 }
 
 void handleExpirationBehavior(Item& item) {
-  if (item.sellIn < 0) {
-    if (!isAgedBrie(item)) {
-      if (!isBackstagePass(item) && !isSulfuras(item)) {
-        decrease_quality(item);
-      } else {
-        item.quality = 0;
-      }
-    } else {
-      increase_quality(item);
-    }
+  if (item.sellIn >= 0) return;
+
+  if (isAgedBrie(item)) {
+    increase_quality(item);
+  } else if (isSulfuras(item)) {
+    // no-op
+  } else if (isBackstagePass(item)) {
+    item.quality = 0;
+  } else {
+    decrease_quality(item);
   }
 }
 
