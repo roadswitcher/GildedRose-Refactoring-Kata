@@ -12,11 +12,13 @@ constexpr int MAX_QUALITY = 50;
 constexpr int LEGENDARY_QUALITY = 80;
 
 void increase_quality(Item& item, int delta = 1) {
-  if (item.quality < MAX_QUALITY) item.quality += delta;
+  if (item.quality < MAX_QUALITY)
+    item.quality = std::min(MAX_QUALITY, item.quality + delta);
 }
 
 void decrease_quality(Item& item, int delta = 1) {
-  if (item.quality > MIN_QUALITY) item.quality -= delta;
+  if (item.quality > MIN_QUALITY)
+    item.quality = std::max(MIN_QUALITY, item.quality - delta);
 }
 
 bool isAgedBrie(const Item& item) { return item.name == "Aged Brie"; }
@@ -34,7 +36,8 @@ bool isConjuredItem(const Item& item) {
 }
 
 bool itemAgesNormally(Item& item) {
-  return !isAgedBrie(item) && !isBackstagePass(item) && !isSulfuras(item) && !isConjuredItem(item);
+  return !isAgedBrie(item) && !isBackstagePass(item) && !isSulfuras(item) &&
+         !isConjuredItem(item);
 }
 
 int backstagePassUpdateQualityDelta(const Item& pass) {
