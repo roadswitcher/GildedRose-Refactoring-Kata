@@ -35,10 +35,8 @@ bool isBackstagePass(const Item& item) {
 void GildedRose::updateQuality() {
   for (auto& item : items) {
     if (!isAgedBrie(item) && !isBackstagePass(item)) {
-      if (item.quality > MIN_QUALITY) {
-        if (!isSulfuras(item)) {
-          item.quality = item.quality - 1;
-        }
+      if (!isSulfuras(item)) {
+        decrease_quality(item);
       }
     } else {
       if (item.quality < MAX_QUALITY) {
@@ -67,7 +65,7 @@ void GildedRose::updateQuality() {
             decrease_quality(item);
           }
         } else {
-          item.quality = item.quality - item.quality;
+          item.quality = 0;
         }
       } else {
         increase_quality(item);
