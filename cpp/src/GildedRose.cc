@@ -1,7 +1,6 @@
 #include "GildedRose.h"
 
 #include <algorithm>
-#include <array>
 
 using namespace std;
 
@@ -77,7 +76,7 @@ void handleExpirationBehavior(Item& item) {
     // no-op
   } else if (isBackstagePass(item)) {
     item.quality = 0;
-  } else if (itemAgesNormally) {
+  } else if (itemAgesNormally(item)) {
     decrease_quality(item);
   }
 }
