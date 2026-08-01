@@ -30,33 +30,41 @@ bool isBackstagePass(const Item& item) {
   return item.name == "Backstage passes to a TAFKAL80ETC concert";
 }
 
+bool itemAgesNormally(Item& item) {
+  return !isAgedBrie(item) && !isBackstagePass(item) && !isSulfuras(item);
+}
+
+void updateItemQuality(Item& item) {
+  if (itemAgesNormally(item)) {
+    decrease_quality(item);
+  } else {
+    if (item.quality < MAX_QUALITY) {
+      item.quality = item.quality + 1;
+
+      if (isBackstagePass(item)) {
+        if (item.sellIn < 11) {
+          increase_quality(item);
+        }
+
+        if (item.sellIn < 6) {
+          increase_quality(item);
+        }
+      }
+    }
+  }
+}
+
+void updateSellIn(Item& item) {
+  if (!isSulfuras(item)) item.sellIn--;
+}
+
 }  // namespace
 
 void GildedRose::updateQuality() {
   for (auto& item : items) {
-    if (!isAgedBrie(item) && !isBackstagePass(item)) {
-      if (!isSulfuras(item)) {
-        decrease_quality(item);
-      }
-    } else {
-      if (item.quality < MAX_QUALITY) {
-        item.quality = item.quality + 1;
+    updateItemQuality(item);
 
-        if (isBackstagePass(item)) {
-          if (item.sellIn < 11) {
-            increase_quality(item);
-          }
-
-          if (item.sellIn < 6) {
-            increase_quality(item);
-          }
-        }
-      }
-    }
-
-    if (!isSulfuras(item)) {
-      item.sellIn = item.sellIn - 1;
-    }
+    updateSellIn(item);
 
     if (item.sellIn < 0) {
       if (!isAgedBrie(item)) {
