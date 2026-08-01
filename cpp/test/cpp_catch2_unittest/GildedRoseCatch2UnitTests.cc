@@ -111,6 +111,12 @@ TEST_CASE("Backstage passes drop to zero quality after concert") {
   REQUIRE(-1 == app.items[0].sellIn);
 }
 
-// We have recently signed a supplier of conjured items. This requires an update
-// to our system:
-// - __"Conjured"__ items degrade in `Quality` twice as fast as normal items
+TEST_CASE("Conjured items degrade in quality twice as fast as normal items") {
+  std::vector<Item> items;
+  items.push_back(Item("Conjured Mana Cake", 5, 10));
+  items.push_back(Item("Standard Totally Normal Item", 5, 10));
+  GildedRose app(items);
+  app.updateQuality();
+  REQUIRE(8 == app.items[0].quality);
+  REQUIRE(9 == app.items[1].quality);
+}

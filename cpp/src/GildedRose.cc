@@ -30,15 +30,15 @@ bool isBackstagePass(const Item& item) {
   return item.name == "Backstage passes to a TAFKAL80ETC concert";
 }
 
-bool itemAgesNormally(Item& item) {
-  return !isAgedBrie(item) && !isBackstagePass(item) && !isSulfuras(item);
+bool isConjuredItem(const Item& item) {
+  return item.name == "Conjured Mana Cake";
 }
 
-int backstagePassQualityDelta(const Item& pass) {
-  // drop to zero after concert
-  if (pass.sellIn < 0) {
-    return -pass.quality;
-  }
+bool itemAgesNormally(Item& item) {
+  return !isAgedBrie(item) && !isBackstagePass(item) && !isSulfuras(item) && !isConjuredItem(item);
+}
+
+int backstagePassUpdateQualityDelta(const Item& pass) {
   if (pass.sellIn <= 5) {
     return 3;
   }
@@ -51,10 +51,13 @@ int backstagePassQualityDelta(const Item& pass) {
 void updateItemQuality(Item& item) {
   if (itemAgesNormally(item)) {
     decrease_quality(item);
+  } else if (isConjuredItem(item)) {
+    decrease_quality(item, -2);
   } else {
+    // Handle backstage pass
     if (item.quality < MAX_QUALITY) {
       auto delta =
-          (isBackstagePass(item)) ? backstagePassQualityDelta(item) : 1;
+          (isBackstagePass(item)) ? backstagePassUpdateQualityDelta(item) : 1;
 
       item.quality = item.quality + delta;
     }
@@ -74,7 +77,7 @@ void handleExpirationBehavior(Item& item) {
     // no-op
   } else if (isBackstagePass(item)) {
     item.quality = 0;
-  } else {
+  } else if (itemAgesNormally) {
     decrease_quality(item);
   }
 }
