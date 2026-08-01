@@ -55,14 +55,14 @@ void updateItemQuality(Item& item) {
     decrease_quality(item);
   } else if (isConjuredItem(item)) {
     decrease_quality(item, 2);
+  } else if (isSulfuras(item)) {
+    // no-op
   } else {
     // Handle backstage pass
-    if (item.quality < MAX_QUALITY) {
-      auto delta =
-          (isBackstagePass(item)) ? backstagePassUpdateQualityDelta(item) : 1;
+    auto delta =
+        (isBackstagePass(item)) ? backstagePassUpdateQualityDelta(item) : 1;
 
-      item.quality = item.quality + delta;
-    }
+    increase_quality(item, delta);
   }
 }
 
