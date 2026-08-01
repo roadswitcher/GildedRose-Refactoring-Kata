@@ -15,8 +15,8 @@ void increase_quality(Item& item, int delta = 1) {
   if (item.quality < MAX_QUALITY) item.quality += delta;
 }
 
-void decrease_quality(Item& item, int delta = -1) {
-  if (item.quality > MIN_QUALITY) item.quality += delta;
+void decrease_quality(Item& item, int delta = 1) {
+  if (item.quality > MIN_QUALITY) item.quality -= delta;
 }
 
 bool isAgedBrie(const Item& item) { return item.name == "Aged Brie"; }
@@ -51,7 +51,7 @@ void updateItemQuality(Item& item) {
   if (itemAgesNormally(item)) {
     decrease_quality(item);
   } else if (isConjuredItem(item)) {
-    decrease_quality(item, -2);
+    decrease_quality(item, 2);
   } else {
     // Handle backstage pass
     if (item.quality < MAX_QUALITY) {
@@ -76,7 +76,9 @@ void handleExpirationBehavior(Item& item) {
     // no-op
   } else if (isBackstagePass(item)) {
     item.quality = 0;
-  } else if (itemAgesNormally(item)) {
+  } else if (isConjuredItem(item)) {
+    decrease_quality(item, 2);
+  } else {
     decrease_quality(item);
   }
 }

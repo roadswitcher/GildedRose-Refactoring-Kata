@@ -120,3 +120,12 @@ TEST_CASE("Conjured items degrade in quality twice as fast as normal items") {
   REQUIRE(8 == app.items[0].quality);
   REQUIRE(9 == app.items[1].quality);
 }
+
+TEST_CASE("Conjured items degrade faster post-expiration to match Aged Brie behavior") {
+  std::vector<Item> items;
+  items.push_back(Item("Conjured Mana Cake", 0, 8));
+  GildedRose app(items);
+  app.updateQuality();
+  REQUIRE(4 == app.items[0].quality);
+  REQUIRE(-1 == app.items[0].sellIn);
+}
