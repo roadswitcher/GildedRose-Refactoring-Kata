@@ -2,9 +2,7 @@
 
 #include <algorithm>
 
-using namespace std;
-
-GildedRose::GildedRose(vector<Item>& items) : items(items) {}
+GildedRose::GildedRose(std::vector<Item>& items) : items(items) {}
 
 namespace {
 constexpr int MIN_QUALITY = 0;
