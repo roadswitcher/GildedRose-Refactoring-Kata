@@ -4,15 +4,20 @@ using namespace std;
 
 GildedRose::GildedRose(vector<Item> & items) : items(items)
 {}
-    
+
+namespace {
+    constexpr int MIN_QUALITY = 0;
+    constexpr int MAX_QUALITY = 50;
+    constexpr int LEGENDARY_QUALITY = 80;
+}
+
 void GildedRose::updateQuality() 
 {
-    // for (int i = 0; i < items.size(); i++)
     for ( auto& item : items )
     {
         if (item.name != "Aged Brie" && item.name != "Backstage passes to a TAFKAL80ETC concert")
         {
-            if (item.quality > 0)
+            if (item.quality > MIN_QUALITY)
             {
                 if (item.name != "Sulfuras, Hand of Ragnaros")
                 {
@@ -22,7 +27,7 @@ void GildedRose::updateQuality()
         }
         else
         {
-            if (item.quality < 50)
+            if (item.quality < MAX_QUALITY)
             {
                 item.quality = item.quality + 1;
 
@@ -30,7 +35,7 @@ void GildedRose::updateQuality()
                 {
                     if (item.sellIn < 11)
                     {
-                        if (item.quality < 50)
+                        if (item.quality < MAX_QUALITY)
                         {
                             item.quality = item.quality + 1;
                         }
@@ -38,7 +43,7 @@ void GildedRose::updateQuality()
 
                     if (item.sellIn < 6)
                     {
-                        if (item.quality < 50)
+                        if (item.quality < MAX_QUALITY)
                         {
                             item.quality = item.quality + 1;
                         }
@@ -58,7 +63,7 @@ void GildedRose::updateQuality()
             {
                 if (item.name != "Backstage passes to a TAFKAL80ETC concert")
                 {
-                    if (item.quality > 0)
+                    if (item.quality > MIN_QUALITY)
                     {
                         if (item.name != "Sulfuras, Hand of Ragnaros")
                         {
@@ -73,7 +78,7 @@ void GildedRose::updateQuality()
             }
             else
             {
-                if (item.quality < 50)
+                if (item.quality < MAX_QUALITY)
                 {
                     item.quality = item.quality + 1;
                 }
