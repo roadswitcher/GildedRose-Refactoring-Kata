@@ -34,22 +34,29 @@ bool itemAgesNormally(Item& item) {
   return !isAgedBrie(item) && !isBackstagePass(item) && !isSulfuras(item);
 }
 
+int backstagePassQualityDelta(const Item& pass) {
+  // drop to zero after concert
+  if (pass.sellIn < 0) {
+    return -pass.quality;
+  }
+  if (pass.sellIn <= 5) {
+    return 3;
+  }
+  if (pass.sellIn <= 10) {
+    return 2;
+  }
+  return 1;
+}
+
 void updateItemQuality(Item& item) {
   if (itemAgesNormally(item)) {
     decrease_quality(item);
   } else {
     if (item.quality < MAX_QUALITY) {
-      item.quality = item.quality + 1;
+      auto delta =
+          (isBackstagePass(item)) ? backstagePassQualityDelta(item) : 1;
 
-      if (isBackstagePass(item)) {
-        if (item.sellIn < 11) {
-          increase_quality(item);
-        }
-
-        if (item.sellIn < 6) {
-          increase_quality(item);
-        }
-      }
+      item.quality = item.quality + delta;
     }
   }
 }
