@@ -44,7 +44,7 @@ TEST_CASE("Aged Brie increases in Quality twice as fast once expired") {
   std::vector<Item> items;
   items.push_back(Item("Aged Brie", 0, 10));
   GildedRose app(items);
-  app.updateQuatlity();
+  app.updateQuality();
   REQUIRE(12 == app.items[0].quality);
   REQUIRE(-1 == app.items[0].sellIn);
 }
