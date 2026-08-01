@@ -75,10 +75,8 @@ void GildedRose::updateQuality() {
 
     if (item.sellIn < 0) {
       if (!isAgedBrie(item)) {
-        if (!isBackstagePass(item)) {
-          if (!isSulfuras(item)) {
-            decrease_quality(item);
-          }
+        if (!isBackstagePass(item) && !isSulfuras(item)) {
+          decrease_quality(item);
         } else {
           item.quality = 0;
         }
