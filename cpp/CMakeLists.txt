@@ -4,13 +4,13 @@ project(gilded-rose-refactoring-kata-cpp)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # uncomment this line to enable coverage measurements using gcov
-# set(CMAKE_CXX_FLAGS "--coverage")
+set(CMAKE_CXX_FLAGS "--coverage")
 
-option(BUILD_APPROVAL_TESTS_WITH_GTEST "Use GoogleTest for approval testing" ON)
+option(BUILD_APPROVAL_TESTS_WITH_GTEST "Use GoogleTest for approval testing" OFF)
 
-option(BUILD_UNIT_TESTS_WITH_GTEST "Use GoogleTest for unit testing" ON)
+option(BUILD_UNIT_TESTS_WITH_GTEST "Use GoogleTest for unit testing" OFF)
 
-option(BUILD_APPROVAL_TESTS_WITH_CATCH2 "Use Catch2 for approval testing" ON)
+option(BUILD_APPROVAL_TESTS_WITH_CATCH2 "Use Catch2 for approval testing" OFF)
 
 option(BUILD_UNIT_TESTS_WITH_CATCH2 "Use Catch2 for unit testing" ON)
 
